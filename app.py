@@ -243,7 +243,10 @@ def webhook():
     elif "kzar" in text:
         reply = get_kzar_reply()
         reply = f"*Beep Boop* {reply} *Beep Boop*"
-
+    # Franzia + title special link
+    if "franzia" in text and "title" in text:
+        reply = "*Beep Boop* Franzia and titles? https://howmanydayssincefranzialastwonthegoon.netlify.app/ *Beep Boop*"
+    
     if reply:
         try:
             response = requests.post(
