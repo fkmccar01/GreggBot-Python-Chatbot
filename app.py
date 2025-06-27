@@ -248,9 +248,10 @@ def webhook():
     if "pistol pail" in text:
         reply = random.choice(pistol_pail_insults)
 
-    # If silver or 2nd mentioned without Pistol Pail, special message
-    if ("silver" in text or "2nd" in text) and "pistol pail" not in text:
-        reply = get_silver_2nd_reply()
+    # if "silver" in text:
+        reply = "*Beep Boop* Silver? Paging Pistol Pail! *Beep Boop*"
+    elif "2nd" in text or "second" in text:
+        reply = "*Beep Boop* 2nd? Paging Pistol Pail! *Beep Boop*"
 
     # Kzar mentions
     if "kzar" in text:
