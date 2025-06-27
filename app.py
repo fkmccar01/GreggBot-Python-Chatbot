@@ -107,7 +107,6 @@ itzaroni_insults = [
     "Itzaroni? Always just one step behind glory.",
 ]
 
-# Add "Who?" 20% chance with Itzaroni mention
 def get_itzaroni_reply():
     if random.random() < 0.20:
         return "Who?"
@@ -170,13 +169,6 @@ pistol_pail_insults = [
     "Pistol Pail? The ‘almost champions’ poster child.",
 ]
 
-def get_pistol_pail_special_reply(keyword):
-    # Always give the correct reply for silver or 2nd
-    if keyword == "silver":
-        return "*Beep Boop* Silver? Paging Pistol Pail! *Beep Boop*"
-    elif keyword == "2nd":
-        return "*Beep Boop* 2nd? Paging Pistol Pail! *Beep Boop*"
-
 # 25 Kzar praises (with 'c'/'C' replaced by 'kz'/'Kz')
 kzar_praises_raw = [
     "All hail the almighty Kzar, whose wisdom guides the Goondesliga.",
@@ -233,32 +225,26 @@ def webhook():
     if name.lower() == "greggbot":
         return "", 200
 
-    # Only respond if GreggBot or keywords mentioned
-    keywords = ["greggbot", "itzaroni", "pistol pail", "silver", "2nd", "kzar"]
-    if not any(k in text for k in keywords):
-        return "", 200
+    reply = None
 
-    reply = ""
-
-    # Itzaroni mentions
-    if "itzaroni" in text:
-        reply = get_itzaroni_reply()
-
-    # Pistol Pail mentions
-    if "pistol pail" in text:
-        reply = random.choice(pistol_pail_insults)
-
-    # if "silver" in text:
+    # Priority: silver > 2nd/second > pistol pail insults
+    if "silver" in text:
         reply = "*Beep Boop* Silver? Paging Pistol Pail! *Beep Boop*"
     elif "2nd" in text or "second" in text:
         reply = "*Beep Boop* 2nd? Paging Pistol Pail! *Beep Boop*"
-
-    # Kzar mentions
-    if "kzar" in text:
+    elif "pistol pail" in text:
+        insult = random.choice(pistol_pail_insults)
+        reply = f"*Beep Boop* {insult} *Beep Boop*"
+    # If Itzaroni mentioned but not silver/2nd/pistol pail
+    elif "itzaroni" in text:
+        reply = get_itzaroni_reply()
+        reply = f"*Beep Boop* {reply} *Beep Boop*"
+    # If Kzar mentioned and no reply yet
+    elif "kzar" in text:
         reply = get_kzar_reply()
+        reply = f"*Beep Boop* {reply} *Beep Boop*"
 
     if reply:
-        reply = f"*Beep Boop* {reply} *Beep Boop*"
         try:
             response = requests.post(
                 "https://api.groupme.com/v3/bots/post",
