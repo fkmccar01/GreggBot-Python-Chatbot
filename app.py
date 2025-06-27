@@ -170,9 +170,12 @@ pistol_pail_insults = [
     "Pistol Pail? The ‘almost champions’ poster child.",
 ]
 
-# Special silver or 2nd mention responses for Pistol Pail
-def get_silver_2nd_reply():
-    return random.choice(["Silver? Paging Pistol Pail!", "2nd? Paging Pistol Pail!"])
+def get_pistol_pail_special_reply(keyword):
+    # Always give the correct reply for silver or 2nd
+    if keyword == "silver":
+        return "*Beep Boop* Silver? Paging Pistol Pail! *Beep Boop*"
+    elif keyword == "2nd":
+        return "*Beep Boop* 2nd? Paging Pistol Pail! *Beep Boop*"
 
 # 25 Kzar praises (with 'c'/'C' replaced by 'kz'/'Kz')
 kzar_praises_raw = [
