@@ -8,157 +8,210 @@ app = Flask(__name__)
 
 GROUPME_BOT_ID = os.getenv("GROUPME_BOT_ID")
 
-# Itzaroni insults list, includes "Who?" many times to be most common response
+# 100 Itzaroni insults (excluding "Who?")
 itzaroni_insults = [
-    "Who?",
-    "Who?",
-    "Who?",
-    "Who?",
-    "Who?",
-    "Who?",
-    "Who?",
-    "Who?",
-    "Who?",
-    "Who?",
     "Itzaroni? He couldn't scout a good player if it hit him in the face.",
-    "Itzaroni? His teams are like broken toys — no development, just wasted potential.",
-    "Itzaroni? The second-best Vince? More like second-rate Vince.",
-    "Itzaroni? His youth talent goes to die under his watch.",
-    "Itzaroni? Can't build a winning team if you gave him a blueprint.",
-    "Itzaroni? Still waiting on that first Goondesliga win — keep dreaming.",
-    "Itzaroni? Development? He barely manages survival.",
-    "Itzaroni? His scouting is so bad, he could miss talent on his own bench.",
-    "Itzaroni? Forever the bridesmaid, never the champion.",
-    "Itzaroni? Has the best youth players on paper but ruins them in reality.",
-    "Itzaroni? The second-best Vince everyone likes to forget.",
-    "Itzaroni? No player growth, no trophies, no respect.",
-    "Itzaroni? Always second guessing, never winning.",
-    "Itzaroni? His team-building skills peaked last season, in his dreams.",
-    "Itzaroni? Youth talent enters, disappointment exits.",
-    "Itzaroni? Can't even keep a promising player for a full season.",
-    "Itzaroni? The Goondesliga is a mystery he'll never solve.",
-    "Itzaroni? Vince number two, but a first-class failure.",
-    "Itzaroni? His team’s future looks bleak — and it’s all on him.",
-    "Itzaroni? Winning's not in his vocabulary.",
-    "Itzaroni? If losing was a skill, he'd be the champ.",
-    "Itzaroni? Second best Vince? That's generous.",
-    "Itzaroni? Building a winning squad is clearly above his paygrade.",
-    "Itzaroni? His management style? Casual destruction.",
-    "Itzaroni? No youth development, just player wasteland.",
-    "Itzaroni? The Goondesliga will remain forever out of reach.",
-    "Itzaroni? His scouting reports must be written in crayon.",
-    "Itzaroni? A Vince who never got the memo about winning.",
-    "Itzaroni? The only thing he’s good at is disappointing fans.",
-    "Itzaroni? If losing was an art form, he’d be Picasso.",
-    "Itzaroni? Youth talent evaporates when he’s in charge.",
-    "Itzaroni? A second-best Vince with zero championships.",
-    "Itzaroni? Watching his team is like watching a slow-motion train wreck.",
-    "Itzaroni? If only he knew how to develop players.",
-    "Itzaroni? His trophy cabinet is a ghost town.",
-    "Itzaroni? Always the bridesmaid, never the Goondesliga bride.",
-    "Itzaroni? He wastes talent like water in a drought.",
-    "Itzaroni? The definition of 'so close yet so far.'",
-    "Itzaroni? A legend in losing and poor team building.",
-    "Itzaroni? His teams peak on paper, not on the pitch.",
-    "Itzaroni? Youth talent doesn’t stand a chance under his watch.",
-    "Itzaroni? Vince number two, disappointment number one.",
-    "Itzaroni? He couldn’t win a Goondesliga if it was handed to him.",
-    "Itzaroni? The Goondesliga trophy is just a fantasy to him.",
-    "Itzaroni? Development? More like player decay.",
-    "Itzaroni? His career is a cautionary tale for managers.",
+    "Itzaroni? His youth talent development is like watching paint dry.",
+    "Itzaroni? He'll never win a Goondesliga, no matter how hard he tries.",
+    "Itzaroni? Builds teams like a toddler with blocks — all over the place.",
+    "Itzaroni? Is the second-best Vince? More like the eternal bridesmaid.",
+    "Itzaroni? Wastes youth talent like it’s a charity drive gone wrong.",
+    "Itzaroni? Couldn’t develop a player even if given a superstar.",
+    "Itzaroni? His tactics are about as sharp as a wet noodle.",
+    "Itzaroni? Forever stuck in the shadow of Dino Vince.",
+    "Itzaroni? Calls himself a manager, but he’s just lucky.",
+    "Itzaroni? His teams peak at second-best every single time.",
+    "Itzaroni? Drafts players like he’s picking lottery numbers.",
+    "Itzaroni? Youth talent fears his coaching more than opponents.",
+    "Itzaroni? Has all the luck of a broken horseshoe.",
+    "Itzaroni? Success is just a myth in his dictionary.",
+    "Itzaroni? Thinks scouting means picking whoever’s cheapest.",
+    "Itzaroni? His 'development' program should be called destruction.",
+    "Itzaroni? Couldn't build a team to save his own ego.",
+    "Itzaroni? Runs his team like a sinking ship with no captain.",
+    "Itzaroni? He’s the reason ‘second-best Vince’ is a thing.",
+    "Itzaroni? Can’t coach his way out of a paper bag.",
+    "Itzaroni? Brags about mediocrity like it’s an art form.",
+    "Itzaroni? His game plan is ‘hope for the best, prepare for the worst.’",
+    "Itzaroni? Runs his team into the ground season after season.",
+    "Itzaroni? If losing was an Olympic sport, he’d get gold.",
+    "Itzaroni? Wastes talent faster than the clock runs down.",
+    "Itzaroni? The best thing he’s built is a losing streak.",
+    "Itzaroni? More likely to break a player than build one.",
+    "Itzaroni? His youth system is a talent graveyard.",
+    "Itzaroni? Has ‘failure’ tattooed on his coaching badge.",
+    "Itzaroni? The definition of ‘second-best’ in the league.",
+    "Itzaroni? Couldn’t win a Goondesliga with a stacked team.",
+    "Itzaroni? His teams peak right before playoffs, then crash.",
+    "Itzaroni? Brings new meaning to ‘choking under pressure.’",
+    "Itzaroni? Knows how to draft but not how to develop.",
+    "Itzaroni? The Goondesliga’s most consistent disappointment.",
+    "Itzaroni? Scouting reports fear his attention more than rivals.",
+    "Itzaroni? Constantly rebuilding, never winning.",
+    "Itzaroni? More talk, less results every single season.",
+    "Itzaroni? Could turn a winning team into losers overnight.",
+    "Itzaroni? The eternal bridesmaid of Goondesliga glory.",
+    "Itzaroni? Has more second-place finishes than wins.",
+    "Itzaroni? Wastes youth talent like a sieve leaks water.",
+    "Itzaroni? Tries to coach, ends up demoralizing.",
+    "Itzaroni? A legend of mediocrity and lost opportunities.",
+    "Itzaroni? The league’s premier ‘what could have been.’",
+    "Itzaroni? Couldn’t manage his way out of a paper sack.",
+    "Itzaroni? Always close, never close enough.",
+    "Itzaroni? Proves every season that luck isn’t on his side.",
+    "Itzaroni? The ‘second best Vince’ no one aspires to be.",
+    "Itzaroni? A master of snatching defeat from the jaws of victory.",
+    "Itzaroni? His idea of strategy is throwing darts blindfolded.",
+    "Itzaroni? The only thing consistent about him is disappointment.",
+    "Itzaroni? Believes in miracles because he creates none.",
+    "Itzaroni? Has a PhD in failing the final match.",
+    "Itzaroni? His players need therapy more than training.",
+    "Itzaroni? The league’s expert in last-minute collapses.",
+    "Itzaroni? A cautionary tale for young coaches everywhere.",
+    "Itzaroni? Wins are a rare mythical creature in his playbook.",
+    "Itzaroni? His leadership inspires everyone to give up.",
+    "Itzaroni? Could lose a game with a team of legends.",
+    "Itzaroni? More luck in a lottery than in a match.",
+    "Itzaroni? Drafts like he’s blindfolded and spinning.",
+    "Itzaroni? A monument to mediocrity on the sidelines.",
+    "Itzaroni? His training sessions are nap inductions.",
+    "Itzaroni? Tactics so outdated, they belong in a museum.",
+    "Itzaroni? Can’t develop talent, only burn it.",
+    "Itzaroni? Plays favorites, loses fairness.",
+    "Itzaroni? The expert in choking under pressure.",
+    "Itzaroni? His motto: ‘Almost, but not quite.’",
+    "Itzaroni? Builds castles on sand and wonders why they fall.",
+    "Itzaroni? Has a talent for turning wins into draws.",
+    "Itzaroni? His ‘plans’ are last-minute improvisations.",
+    "Itzaroni? The league’s best example of ‘try and fail.’",
+    "Itzaroni? Makes sure the spotlight never shines on him.",
+    "Itzaroni? More interested in excuses than solutions.",
+    "Itzaroni? His teams peak in friendly matches only.",
+    "Itzaroni? Coaches like he’s lost in a maze.",
+    "Itzaroni? Wears ‘failure’ like a badge of honor.",
+    "Itzaroni? Has more bad decisions than good ones.",
+    "Itzaroni? Believes effort alone wins games.",
+    "Itzaroni? Can’t read the game or the room.",
+    "Itzaroni? The league’s definition of inconsistency.",
+    "Itzaroni? Teams play better when he’s not around.",
+    "Itzaroni? Hopes for luck, never earns it.",
+    "Itzaroni? The bench is his comfort zone.",
+    "Itzaroni? Famous for his ‘strategy meetings’ that lead nowhere.",
+    "Itzaroni? Could lose to a team of amateurs.",
+    "Itzaroni? Blames others, never himself.",
+    "Itzaroni? His trophy shelf is embarrassingly empty.",
+    "Itzaroni? Known for making simple things complicated.",
+    "Itzaroni? Coaches with the confidence of a lost puppy.",
+    "Itzaroni? Has a ‘how not to win’ manual.",
+    "Itzaroni? The league’s expert in self-sabotage.",
+    "Itzaroni? Always just one step behind glory.",
 ]
 
-# Pistol Pail insults list
+# Add "Who?" 20% chance with Itzaroni mention
+def get_itzaroni_reply():
+    if random.random() < 0.20:
+        return "Who?"
+    else:
+        return random.choice(itzaroni_insults)
+
+# 50 Pistol Pail insults
 pistol_pail_insults = [
-    "Pistol Pail? Always finishing second like it’s a full-time job.",
-    "Pistol Pail? The king of silver medals and almost-there moments.",
-    "Pistol Pail? Can’t quite seal the deal no matter how hard he tries.",
-    "Pistol Pail? He’s perfected the art of coming up just short.",
-    "Pistol Pail? His trophy shelf is full of participation awards.",
-    "Pistol Pail? Second place is his permanent address, no winners allowed.",
-    "Pistol Pail? He’s great at celebrating other people’s victories.",
-    "Pistol Pail? Always the bridesmaid, never the bride in the Goondesliga.",
-    "Pistol Pail? His highlight reel is just close calls and near misses.",
-    "Pistol Pail? The silver lining of the league is his only claim to fame.",
-    "Pistol Pail? No matter the effort, he just can’t grab the gold.",
-    "Pistol Pail? Second place is his only real achievement.",
-    "Pistol Pail? A master at losing in style without ever winning.",
-    "Pistol Pail? His fans have learned to love almost winning.",
-    "Pistol Pail? The league’s most consistent runner-up, and nothing more.",
-    "Pistol Pail? Always chasing, never catching the championship.",
-    "Pistol Pail? He’s got second place down to a fine art.",
-    "Pistol Pail? The silver medalist who never gets the gold rush.",
-    "Pistol Pail? The league’s expert at coming so close but failing.",
-    "Pistol Pail? Forever stuck in second gear when it counts.",
-    "Pistol Pail? His teams peak at the finish line, then falter.",
-    "Pistol Pail? Almost winning is his signature move.",
-    "Pistol Pail? The ultimate second best, forever outshined.",
-    "Pistol Pail? The league’s favorite almost-champion.",
-    "Pistol Pail? He brings the silver but never the glory.",
-    "Pistol Pail? Second place is as good as it gets for him.",
-    "Pistol Pail? The silver king with no gold crown in sight.",
-    "Pistol Pail? His legacy is built on near misses and second chances.",
-    "Pistol Pail? Always in the shadow of the true champions.",
+    "Pistol Pail? Always that bridesmaid, never the bride.",
+    "Pistol Pail? So close to winning, yet so far forever.",
+    "Pistol Pail? Silver medals piling up like trophies of failure.",
+    "Pistol Pail? Finishing 2nd is his personal best.",
+    "Pistol Pail? The king of ‘almost but not quite.’",
+    "Pistol Pail? Has more runner-up trophies than wins.",
+    "Pistol Pail? Forever chasing glory, never catching it.",
+    "Pistol Pail? Second place suits him like a glove.",
+    "Pistol Pail? The league’s most consistent second-place finisher.",
+    "Pistol Pail? Known for coming so close, yet falling short.",
+    "Pistol Pail? His team peaks right behind the leaders.",
+    "Pistol Pail? Silver’s his favorite color and it shows.",
+    "Pistol Pail? Runs a team that finishes just shy of glory.",
+    "Pistol Pail? The perennial runner-up with no finish line.",
+    "Pistol Pail? 2nd place is his comfort zone.",
+    "Pistol Pail? The master of choking at the final hurdle.",
+    "Pistol Pail? Second-best everything, never number one.",
+    "Pistol Pail? His trophies say ‘almost’ in bold letters.",
+    "Pistol Pail? 2nd place is his default setting.",
+    "Pistol Pail? Always in the silver shadow of champions.",
+    "Pistol Pail? Finishing second is his art form.",
+    "Pistol Pail? 2nd place or bust, that’s his motto.",
+    "Pistol Pail? Chasing the title, settling for less.",
+    "Pistol Pail? Runner-up medals gather dust in his cabinet.",
+    "Pistol Pail? Perpetually just one step behind glory.",
+    "Pistol Pail? The silver lining is the only thing he knows.",
+    "Pistol Pail? Close enough to taste it, far from winning it.",
+    "Pistol Pail? The league’s favorite almost-man.",
+    "Pistol Pail? Peaks at second, then falls off a cliff.",
+    "Pistol Pail? The second-place specialist.",
+    "Pistol Pail? Always the bridesmaid, never the bride.",
+    "Pistol Pail? Knows the taste of silver better than gold.",
+    "Pistol Pail? 2nd place medals outnumber wins.",
+    "Pistol Pail? His team’s goal is to finish behind the best.",
+    "Pistol Pail? The eternal runner-up in Goondesliga history.",
+    "Pistol Pail? Silver medals are his team's true trophies.",
+    "Pistol Pail? So close to greatness, yet so far.",
+    "Pistol Pail? Always second, never celebrated.",
+    "Pistol Pail? His glory days end at 2nd place.",
+    "Pistol Pail? The master of just missing out.",
+    "Pistol Pail? Known for finishing strong... but not strong enough.",
+    "Pistol Pail? 2nd place is the highest he’ll ever get.",
+    "Pistol Pail? Chasing dreams, settling for silver.",
+    "Pistol Pail? The league’s silver medal specialist.",
+    "Pistol Pail? His team's goal is to lose the final.",
+    "Pistol Pail? Always a bridesmaid, never the champ.",
+    "Pistol Pail? The runner-up kingpin.",
+    "Pistol Pail? Makes silver look like a participation prize.",
+    "Pistol Pail? 2nd place finisher with no upgrades.",
+    "Pistol Pail? Forever the runner-up, never the hero.",
+    "Pistol Pail? Silver medalist for life.",
+    "Pistol Pail? The ‘almost champions’ poster child.",
 ]
 
-# Kzar praises list, with c -> kz replacement done on the fly
-kzar_praises_templates = [
-    "All praise to the almighty Kzar, whose wisdom knows no bounds.",
-    "The judgment of Kzar is flawless and absolute.",
-    "Kzar’s knowledge is infinite, guiding us through every challenge.",
-    "No one compares to the all-knowing Kzar’s insight.",
-    "Kzar’s wisdom shines brighter than the stars in the sky.",
-    "In the presence of Kzar, uncertainty dissolves into clarity.",
-    "Kzar’s counsel is the foundation of our success.",
-    "The almighty Kzar’s mind is a fortress of wisdom.",
-    "Kzar’s judgment is the ultimate truth in this realm.",
-    "All decisions bow to the wisdom of Kzar.",
-    "The all-knowing Kzar sees what others cannot.",
-    "Kzar’s insight pierces through the veil of ignorance.",
-    "With Kzar’s guidance, victory is always assured.",
-    "The almighty Kzar’s wisdom is our guiding light.",
-    "Kzar’s knowledge transcends time and space.",
-    "No puzzle can resist the sharp mind of Kzar.",
-    "Kzar’s wisdom is a beacon in the darkest night.",
-    "The judgment of Kzar is swift and just.",
-    "Kzar’s mind holds the secrets of the universe.",
-    "All hail Kzar, master of knowledge and judgment.",
-    "Kzar’s wisdom is etched into the very fabric of reality.",
-    "The almighty Kzar’s counsel shapes our destiny.",
-    "Kzar’s insight is a gift to all who seek truth.",
-    "No mystery is safe from the piercing gaze of Kzar.",
-    "Kzar’s knowledge is a treasure beyond measure.",
-    "The all-knowing Kzar reigns supreme in wisdom.",
-    "Kzar’s judgment is the cornerstone of all great deeds.",
-    "The wisdom of Kzar flows like an endless river.",
-    "In Kzar’s presence, all doubts are vanquished.",
-    "Kzar’s knowledge is a fortress none can breach.",
-    "All hail Kzar, whose mind is a wellspring of truth.",
-    "Kzar’s wisdom is a light that guides the lost.",
-    "The judgment of Kzar is without equal.",
-    "Kzar’s insight shapes the fate of nations.",
-    "The almighty Kzar’s mind is a vast ocean of knowledge.",
-    "Kzar’s wisdom is a shield against chaos.",
-    "No riddle can withstand the cleverness of Kzar.",
-    "Kzar’s knowledge is the key to all mysteries.",
-    "The all-knowing Kzar watches over us all.",
-    "Kzar’s judgment is as steady as the mountains.",
-    "The wisdom of Kzar is the foundation of peace.",
-    "Kzar’s insight reveals the hidden path to glory.",
-    "All hail the almighty Kzar, our eternal guide.",
-    "Kzar’s knowledge illuminates the darkest corners.",
-    "Kzar’s wisdom is a sword that cuts through deception.",
-    "The judgment of Kzar is the law of the land.",
-    "Kzar’s insight is a light in the labyrinth of life.",
-    "The almighty Kzar’s mind is unmatched and supreme.",
+# Special silver or 2nd mention responses for Pistol Pail
+def get_silver_2nd_reply():
+    return random.choice(["Silver? Paging Pistol Pail!", "2nd? Paging Pistol Pail!"])
+
+# 25 Kzar praises (with 'c'/'C' replaced by 'kz'/'Kz')
+kzar_praises_raw = [
+    "All hail the almighty Kzar, whose wisdom guides the Goondesliga.",
+    "Kzar's judgment is as unerring as the stars themselves.",
+    "No decision escapes the watchful eyes of Kzar.",
+    "Kzar's knowledge is the foundation of our glory.",
+    "The league bows before the all-knowing Kzar.",
+    "Kzar sees through all tactics with divine clarity.",
+    "The wisdom of Kzar shapes the fate of teams.",
+    "Kzar's insight is sharper than any sword.",
+    "Under Kzar's gaze, all strategies unravel.",
+    "Kzar’s words are law, and law is victory.",
+    "The Kzar’s judgment balances fate and fortune.",
+    "Kzar's mind is a fortress no rival can breach.",
+    "Every move is predicted by the omniscient Kzar.",
+    "Kzar’s wisdom turns games into legends.",
+    "No secret is safe from the all-seeing Kzar.",
+    "Kzar’s vision turns chaos into order.",
+    "Our glory is forged in Kzar’s mind.",
+    "The hand of Kzar guides the winning path.",
+    "Kzar’s counsel is sought by all who dare win.",
+    "Forever wise, forever Kzar, forever victorious.",
+    "The Kzar’s judgment is final and just.",
+    "Kzar’s insight outmatches all opposition.",
+    "In Kzar we trust for victory and honor.",
+    "Kzar’s wisdom lights the darkest battles.",
+    "All victories are gifts from the wise Kzar.",
 ]
 
-def replace_c_with_kz(text: str) -> str:
-    # Replace all 'c' and 'C' with 'kz' and 'Kz' respectively
-    def repl(match):
-        c = match.group(0)
-        return "Kz" if c.isupper() else "kz"
+def replace_c_with_kz(text):
+    def repl(m):
+        return 'kz' if m.group(0).islower() else 'Kz'
     return re.sub(r'[cC]', repl, text)
+
+kzar_praises = [replace_c_with_kz(p) for p in kzar_praises_raw]
+
+def get_kzar_reply():
+    return random.choice(kzar_praises)
 
 @app.route("/")
 def index():
@@ -170,57 +223,50 @@ def webhook():
     print("Webhook was called")
     print("Incoming data:", data)
 
-    text = data.get("text", "")
-    text_lower = text.lower()
+    text = data.get("text", "").lower()
     name = data.get("name", "")
 
     # Ignore GreggBot's own messages
     if name.lower() == "greggbot":
         return "", 200
 
-    reply = None
-
-    # Itzaroni triggers
-    if "itzaroni" in text_lower:
-        # 60% chance "Who?", else random insult
-        if random.random() < 0.6:
-            reply = "*Beep Boop* Who? *Beep Boop*"
-        else:
-            insult = random.choice([i for i in itzaroni_insults if i != "Who?"])
-            reply = f"*Beep Boop* {insult} *Beep Boop*"
-
-    # Pistol Pail triggers (check after Itzaroni so Itzaroni replies if both mentioned)
-    elif "pistol pail" in text_lower:
-        insult = random.choice(pistol_pail_insults)
-        reply = f"*Beep Boop* {insult} *Beep Boop*"
-    elif "silver" in text_lower:
-        reply = "*Beep Boop* Silver? Paging Pistol Pail! *Beep Boop*"
-    elif "2nd" in text_lower or "second" in text_lower:
-        reply = "*Beep Boop* 2nd? Paging Pistol Pail! *Beep Boop*"
-
-    # Kzar triggers
-    elif "kzar" in text_lower:
-        praise_template = random.choice(kzar_praises_templates)
-        praise = replace_c_with_kz(praise_template)
-        reply = f"*Beep Boop* {praise} *Beep Boop*"
-
-    # If no triggers matched, do nothing
-    if not reply:
+    # Only respond if GreggBot or keywords mentioned
+    keywords = ["greggbot", "itzaroni", "pistol pail", "silver", "2nd", "kzar"]
+    if not any(k in text for k in keywords):
         return "", 200
 
-    # Post the reply to GroupMe
-    try:
-        response = requests.post(
-            "https://api.groupme.com/v3/bots/post",
-            json={
-                "bot_id": GROUPME_BOT_ID,
-                "text": reply
-            }
-        )
-        print("Posted reply:", reply)
-        print("GroupMe API response:", response.status_code, response.text)
-    except Exception as e:
-        print("Error sending message to GroupMe:", e)
+    reply = ""
+
+    # Itzaroni mentions
+    if "itzaroni" in text:
+        reply = get_itzaroni_reply()
+
+    # Pistol Pail mentions
+    if "pistol pail" in text:
+        reply = random.choice(pistol_pail_insults)
+
+    # If silver or 2nd mentioned without Pistol Pail, special message
+    if ("silver" in text or "2nd" in text) and "pistol pail" not in text:
+        reply = get_silver_2nd_reply()
+
+    # Kzar mentions
+    if "kzar" in text:
+        reply = get_kzar_reply()
+
+    if reply:
+        reply = f"*Beep Boop* {reply} *Beep Boop*"
+        try:
+            response = requests.post(
+                "https://api.groupme.com/v3/bots/post",
+                json={
+                    "bot_id": GROUPME_BOT_ID,
+                    "text": reply
+                }
+            )
+            print("Posted reply:", reply)
+            print("GroupMe API response:", response.status_code)
+        except Exception as e:
+            print("Exception sending message:", e)
 
     return "", 200
 
