@@ -224,6 +224,9 @@ def webhook():
     # Ignore GreggBot's own messages
     if name.lower() == "greggbot":
         return "", 200
+    
+    if name.lower() == "taycan a. schitt":
+            return "", 200
 
     reply = None
 
